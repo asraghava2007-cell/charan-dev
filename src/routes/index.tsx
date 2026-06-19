@@ -952,7 +952,7 @@ function Contact() {
           </Reveal>
 
           <Reveal delay={0.15}>
-            <form onSubmit={onSubmit} className="space-y-4 rounded-3xl glass p-6">
+            <form ref={formRef} onSubmit={onSubmit} className="space-y-4 rounded-3xl glass p-6">
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="Name" name="name" placeholder="Your name" required />
                 <Field label="Email" name="email" type="email" placeholder="you@email.com" required />

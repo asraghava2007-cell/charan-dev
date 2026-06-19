@@ -356,7 +356,7 @@ function Hero() {
                 <img
                   src={charan1.url}
                   alt="Charan.D"
-                  className="h-full w-full object-cover grayscale contrast-110"
+                  className="h-full w-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
                 {/* Floating chips */}
@@ -559,7 +559,7 @@ function About() {
               <img
                 src={charan2.url}
                 alt="Charan working"
-                className="h-full w-full object-cover grayscale contrast-110"
+                className="h-full w-full object-cover"
               />
             </div>
             <div className="absolute -bottom-8 -left-8 text-[color:var(--electric)]">

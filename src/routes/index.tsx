@@ -213,23 +213,54 @@ function Typed() {
   );
 }
 
-function CircleBadge({ text, size = 130, children }: { text: string; size?: number; children?: React.ReactNode }) {
-  const chars = text.split("");
-  const angleStep = 360 / chars.length;
+function CircleBadge({
+  text,
+  size = 140,
+  children,
+  ring = "currentColor",
+}: {
+  text: string;
+  size?: number;
+  children?: React.ReactNode;
+  ring?: string;
+}) {
   return (
     <div className="relative" style={{ width: size, height: size }}>
-      <div className="absolute inset-0 animate-spin-slow rounded-full">
+      <div className="absolute inset-0 animate-spin-slow">
         <svg viewBox="0 0 200 200" className="h-full w-full">
           <defs>
-            <path id={`cb-${text}`} d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
+            <path
+              id={`cb-${text.replace(/\s+/g, "")}`}
+              d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"
+              fill="none"
+            />
           </defs>
-          <text fill="currentColor" className="text-foreground" style={{ fontSize: 18, letterSpacing: 3, fontWeight: 600 }}>
-            <textPath href={`#cb-${text}`}>{text}</textPath>
+          <text
+            fill={ring}
+            style={{ fontSize: 17, letterSpacing: 4, fontWeight: 700, fontFamily: "inherit" }}
+          >
+            <textPath href={`#cb-${text.replace(/\s+/g, "")}`}>{text}</textPath>
           </text>
         </svg>
       </div>
-      <div className="absolute inset-[22%] grid place-items-center rounded-full bg-[color:var(--electric)] text-primary-foreground shadow-[0_10px_30px_-5px_oklch(0.74_0.19_50_/_0.6)]">
+      <div className="absolute inset-[30%] grid place-items-center rounded-full bg-[color:var(--electric)] text-primary-foreground shadow-[0_10px_30px_-5px_oklch(0.74_0.19_50_/_0.6)]">
         {children}
+      </div>
+    </div>
+  );
+}
+
+function Marquee({ items }: { items: string[] }) {
+  const loop = [...items, ...items, ...items];
+  return (
+    <div className="relative overflow-hidden border-y border-white/10 bg-[color:var(--electric)]/[0.04] py-4">
+      <div className="flex animate-[marquee_28s_linear_infinite] gap-10 whitespace-nowrap will-change-transform">
+        {loop.map((t, i) => (
+          <span key={i} className="flex items-center gap-10 text-sm font-bold uppercase tracking-[0.3em] text-foreground/80">
+            {t}
+            <span className="text-[color:var(--electric)]">✦</span>
+          </span>
+        ))}
       </div>
     </div>
   );
@@ -237,63 +268,208 @@ function CircleBadge({ text, size = 130, children }: { text: string; size?: numb
 
 function Hero() {
   return (
-    <section id="home" className="relative px-4 pb-20 pt-32 sm:pt-40">
-      {/* Background brush strokes */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <section id="home" className="relative overflow-hidden pt-28">
+      {/* Background brush strokes & noise */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -right-32 top-20 h-[420px] w-[420px] rotate-[-25deg] rounded-[100%] border-[60px] border-[color:var(--electric)]/70 [clip-path:polygon(0_0,100%_0,100%_50%,0_50%)]" />
-        <div className="absolute -left-40 bottom-10 h-[320px] w-[320px] rotate-[20deg] rounded-[100%] border-[40px] border-[color:var(--electric)]/40 [clip-path:polygon(0_50%,100%_50%,100%_100%,0_100%)]" />
-        <div className="absolute right-1/4 top-1/3 text-[280px] font-black leading-none text-[color:var(--electric)]/10 select-none">✦</div>
+        <div className="absolute -left-40 bottom-24 h-[320px] w-[320px] rotate-[20deg] rounded-[100%] border-[40px] border-[color:var(--electric)]/40 [clip-path:polygon(0_50%,100%_50%,100%_100%,0_100%)]" />
+        <div className="absolute right-1/4 top-1/3 select-none text-[280px] font-black leading-none text-[color:var(--electric)]/10">
+          ✦
+        </div>
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "radial-gradient(oklch(1 0 0) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+          }}
+        />
       </div>
 
-      <div className="relative mx-auto max-w-7xl">
-        {/* DOWNLOAD CV pill */}
-        <div className="mb-6 flex justify-end">
-          <a
-            href="#contact"
-            className="rounded-full bg-[color:var(--electric)] px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground transition-transform hover:scale-105"
+      <div className="relative mx-auto max-w-7xl px-4">
+        {/* Top utility row */}
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-medium text-foreground/80 backdrop-blur"
           >
-            Hire Me →
-          </a>
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--electric)] opacity-70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--electric)]" />
+            </span>
+            Open to internships · 2026
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="flex items-center gap-3"
+          >
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+              className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/[0.04] text-foreground/80 transition-all hover:-translate-y-0.5 hover:border-[color:var(--electric)]/60 hover:text-[color:var(--electric)]"
+            >
+              <Github className="h-4 w-4" />
+            </a>
+            <a
+              href="#contact"
+              className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--electric)] px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground transition-transform hover:scale-105"
+            >
+              Hire Me
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            </a>
+          </motion.div>
         </div>
 
         {/* Massive headline + portrait composition */}
         <div className="relative">
-          <h1 className="relative z-10 text-center text-[18vw] font-black uppercase leading-[0.85] tracking-tight sm:text-[15vw] md:text-[13rem] lg:text-[15rem]">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.2 }}
+            className="relative z-10 text-center text-[18vw] font-black uppercase leading-[0.85] tracking-tight sm:text-[15vw] md:text-[13rem] lg:text-[15rem]"
+          >
             <span className="block">I'M A</span>
             <span className="relative block">
               <span>DEVE</span>
               <span className="text-stroke mx-2">LOPER</span>
             </span>
-          </h1>
+          </motion.h1>
 
           {/* Portrait absolutely overlapping text */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.5 }}
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
             className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-[55%]"
           >
-            <div className="relative h-[40vw] max-h-[460px] min-h-[260px] w-[30vw] min-w-[220px] max-w-[360px] overflow-hidden rounded-t-full bg-surface">
-              <img
-                src={profilePic}
-                alt="Charan.D"
-                className="h-full w-full object-cover grayscale contrast-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
+            <div className="relative h-[40vw] max-h-[460px] min-h-[260px] w-[30vw] min-w-[220px] max-w-[360px]">
+              <div className="absolute -inset-6 rounded-t-full bg-[color:var(--electric)]/30 blur-3xl" />
+              <div className="relative h-full w-full overflow-hidden rounded-t-full bg-surface ring-1 ring-white/10">
+                <img
+                  src={profilePic}
+                  alt="Charan.D"
+                  className="h-full w-full object-cover grayscale contrast-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                {/* Floating chips */}
+                <motion.div
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -left-6 top-10 hidden items-center gap-2 rounded-2xl border border-white/10 bg-background/80 px-3 py-2 text-xs font-semibold backdrop-blur sm:flex"
+                >
+                  <Code2 className="h-3.5 w-3.5 text-[color:var(--electric)]" />
+                  <span>{"<Python />"}</span>
+                </motion.div>
+                <motion.div
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute -right-8 top-1/3 hidden items-center gap-2 rounded-2xl border border-white/10 bg-background/80 px-3 py-2 text-xs font-semibold backdrop-blur sm:flex"
+                >
+                  <Sparkles className="h-3.5 w-3.5 text-[color:var(--electric)]" />
+                  <span>Web Dev</span>
+                </motion.div>
+              </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Scroll-down badge */}
-        <div className="mt-8 flex justify-center text-[color:var(--electric)]">
-          <CircleBadge text="SCROLL DOWN • SCROLL DOWN • ">
-            <ChevronDown className="h-6 w-6" />
-          </CircleBadge>
-        </div>
+        {/* Sub-row: role + scroll badge + social */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="relative z-30 mt-8 grid grid-cols-1 items-center gap-8 md:grid-cols-3"
+        >
+          {/* Left meta */}
+          <div className="order-2 md:order-1">
+            <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
+              [ 01 ] — Currently
+            </div>
+            <p className="mt-2 max-w-xs text-sm leading-relaxed text-foreground/80">
+              Engineering student at <span className="font-semibold text-foreground">Sapthagiri NPS University</span>,
+              building with Python, C and the modern web.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {["Python", "C", "JavaScript", "React"].map((t) => (
+                <span
+                  key={t}
+                  className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-foreground/70"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Center scroll badge */}
+          <div className="order-1 flex justify-center text-foreground md:order-2">
+            <CircleBadge text="SCROLL DOWN • SCROLL DOWN • " ring="oklch(1 0 0 / 0.85)">
+              <ChevronDown className="h-6 w-6" />
+            </CircleBadge>
+          </div>
+
+          {/* Right CTA */}
+          <div className="order-3 flex flex-col items-start gap-3 md:items-end">
+            <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
+              [ 02 ] — Connect
+            </div>
+            <div className="flex items-center gap-3">
+              <a
+                href="mailto:Charandhevaiah@gmail.com"
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/[0.04] text-foreground/80 transition-all hover:-translate-y-0.5 hover:border-[color:var(--electric)]/60 hover:text-[color:var(--electric)]"
+              >
+                <Mail className="h-4 w-4" />
+              </a>
+              <a
+                href="tel:+919380182600"
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/[0.04] text-foreground/80 transition-all hover:-translate-y-0.5 hover:border-[color:var(--electric)]/60 hover:text-[color:var(--electric)]"
+              >
+                <Phone className="h-4 w-4" />
+              </a>
+              <a
+                href="https://instagram.com/charan_dhevaiah"
+                target="_blank"
+                rel="noreferrer"
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/[0.04] text-foreground/80 transition-all hover:-translate-y-0.5 hover:border-[color:var(--electric)]/60 hover:text-[color:var(--electric)]"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+            </div>
+            <a
+              href="#projects"
+              className="group mt-1 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-foreground hover:text-[color:var(--electric)]"
+            >
+              View Work
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            </a>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Bottom marquee strip */}
+      <div className="mt-16">
+        <Marquee
+          items={[
+            "PYTHON",
+            "C PROGRAMMING",
+            "WEB DEVELOPMENT",
+            "PROBLEM SOLVING",
+            "REACT",
+            "ALWAYS LEARNING",
+          ]}
+        />
       </div>
     </section>
   );
 }
+
 
 
 /* ============================ Reusable ============================ */

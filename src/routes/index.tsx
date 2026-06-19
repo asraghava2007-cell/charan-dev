@@ -21,7 +21,8 @@ import {
   Send,
 } from "lucide-react";
 import { Toaster, toast } from "sonner";
-import profilePic from "@/assets/charan-profile.jpg";
+import charan1 from "@/assets/charan-1.png.asset.json";
+import charan2 from "@/assets/charan-2.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -349,15 +350,15 @@ function Hero() {
             transition={{ duration: 1, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
             className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-[55%]"
           >
-            <div className="relative h-[40vw] max-h-[460px] min-h-[260px] w-[30vw] min-w-[220px] max-w-[360px]">
-              <div className="absolute -inset-6 rounded-t-full bg-[color:var(--electric)]/30 blur-3xl" />
-              <div className="relative h-full w-full overflow-hidden rounded-t-full bg-surface ring-1 ring-white/10">
+            <div className="relative aspect-square h-[36vw] max-h-[420px] min-h-[240px] w-[36vw] max-w-[420px] min-w-[240px]">
+              <div className="absolute -inset-6 rounded-full bg-[color:var(--electric)]/30 blur-3xl" />
+              <div className="relative h-full w-full overflow-hidden rounded-full bg-surface ring-1 ring-white/10">
                 <img
-                  src={profilePic}
+                  src={charan1.url}
                   alt="Charan.D"
                   className="h-full w-full object-cover grayscale contrast-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
                 {/* Floating chips */}
                 <motion.div
                   animate={{ y: [0, -8, 0] }}
@@ -554,9 +555,9 @@ function About() {
 
         <Reveal delay={0.15}>
           <div className="relative mx-auto w-full max-w-md">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-surface">
+            <div className="relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-full bg-surface ring-1 ring-white/10">
               <img
-                src={profilePic}
+                src={charan2.url}
                 alt="Charan working"
                 className="h-full w-full object-cover grayscale contrast-110"
               />

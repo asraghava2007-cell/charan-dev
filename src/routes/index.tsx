@@ -21,7 +21,7 @@ import {
   Send,
 } from "lucide-react";
 import { Toaster, toast } from "sonner";
-import charan1 from "@/assets/charan-1.png.asset.json";
+import charan1 from "@/assets/charan-3.jpeg.asset.json";
 import charan2 from "@/assets/charan-2.png.asset.json";
 
 export const Route = createFileRoute("/")({

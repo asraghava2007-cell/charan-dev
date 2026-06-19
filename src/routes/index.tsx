@@ -213,112 +213,88 @@ function Typed() {
   );
 }
 
+function CircleBadge({ text, size = 130, children }: { text: string; size?: number; children?: React.ReactNode }) {
+  const chars = text.split("");
+  const angleStep = 360 / chars.length;
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <div className="absolute inset-0 animate-spin-slow rounded-full">
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <defs>
+            <path id={`cb-${text}`} d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
+          </defs>
+          <text fill="currentColor" className="text-foreground" style={{ fontSize: 18, letterSpacing: 3, fontWeight: 600 }}>
+            <textPath href={`#cb-${text}`}>{text}</textPath>
+          </text>
+        </svg>
+      </div>
+      <div className="absolute inset-[22%] grid place-items-center rounded-full bg-[color:var(--electric)] text-primary-foreground shadow-[0_10px_30px_-5px_oklch(0.74_0.19_50_/_0.6)]">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
-    <section id="home" className="relative flex min-h-screen items-center justify-center px-4 pt-28">
-      {/* Floating blobs */}
+    <section id="home" className="relative px-4 pb-20 pt-32 sm:pt-40">
+      {/* Background brush strokes */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-[10%] top-[15%] h-72 w-72 animate-blob rounded-full bg-[color:var(--electric)]/20 blur-3xl" />
-        <div
-          className="absolute right-[10%] top-[40%] h-80 w-80 animate-blob rounded-full bg-[color:var(--violet)]/20 blur-3xl"
-          style={{ animationDelay: "-6s" }}
-        />
-        <div
-          className="absolute bottom-[10%] left-[40%] h-64 w-64 animate-blob rounded-full bg-[color:var(--electric)]/15 blur-3xl"
-          style={{ animationDelay: "-12s" }}
-        />
+        <div className="absolute -right-32 top-20 h-[420px] w-[420px] rotate-[-25deg] rounded-[100%] border-[60px] border-[color:var(--electric)]/70 [clip-path:polygon(0_0,100%_0,100%_50%,0_50%)]" />
+        <div className="absolute -left-40 bottom-10 h-[320px] w-[320px] rotate-[20deg] rounded-[100%] border-[40px] border-[color:var(--electric)]/40 [clip-path:polygon(0_50%,100%_50%,100%_100%,0_100%)]" />
+        <div className="absolute right-1/4 top-1/3 text-[280px] font-black leading-none text-[color:var(--electric)]/10 select-none">✦</div>
       </div>
 
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-12 md:grid-cols-[1fr_auto] md:gap-16">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          className="text-center md:text-left"
-        >
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full glass px-3 py-1.5 text-xs font-medium text-muted-foreground">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--electric)] opacity-70" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--electric)]" />
-            </span>
-            Available for collaboration
-          </div>
+      <div className="relative mx-auto max-w-7xl">
+        {/* DOWNLOAD CV pill */}
+        <div className="mb-6 flex justify-end">
+          <a
+            href="#contact"
+            className="rounded-full bg-[color:var(--electric)] px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground transition-transform hover:scale-105"
+          >
+            Hire Me →
+          </a>
+        </div>
 
-          <h1 className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
-            Hi, I'm <br className="sm:hidden" />
-            <span className="text-gradient">Charan.D</span>
+        {/* Massive headline + portrait composition */}
+        <div className="relative">
+          <h1 className="relative z-10 text-center text-[18vw] font-black uppercase leading-[0.85] tracking-tight sm:text-[15vw] md:text-[13rem] lg:text-[15rem]">
+            <span className="block">I'M A</span>
+            <span className="relative block">
+              <span>DEVE</span>
+              <span className="text-stroke mx-2">LOPER</span>
+            </span>
           </h1>
 
-          <div className="mt-6 text-lg sm:text-xl md:text-2xl">
-            <Typed />
-          </div>
-
-          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:mx-0">
-            Passionate engineering student exploring software development,
-            programming, and modern web technologies.
-          </p>
-
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3 md:justify-start">
-            <a
-              href="#projects"
-              className="group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[color:var(--electric)] to-[color:var(--violet)] px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[0_10px_40px_-10px_oklch(0.72_0.19_250_/_0.7)] transition-transform hover:scale-105"
-            >
-              View Portfolio
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 rounded-2xl glass px-6 py-3 text-sm font-semibold transition-colors hover:bg-white/10"
-            >
-              Contact Me
-            </a>
-          </div>
-
-          <div className="mt-10 flex items-center justify-center gap-5 text-muted-foreground md:justify-start">
-            <a href="mailto:Charandhevaiah@gmail.com" className="transition-colors hover:text-[color:var(--electric)]"><Mail className="h-5 w-5" /></a>
-            <a href="tel:+919380182600" className="transition-colors hover:text-[color:var(--electric)]"><Phone className="h-5 w-5" /></a>
-            <a href="https://instagram.com/charan_dhevaiah" target="_blank" rel="noreferrer" className="transition-colors hover:text-[color:var(--violet)]"><Instagram className="h-5 w-5" /></a>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.9 }}
-          className="relative mx-auto"
-        >
-          <div className="absolute -inset-6 rounded-full bg-gradient-to-br from-[color:var(--electric)] to-[color:var(--violet)] opacity-40 blur-2xl" />
-          <div className="absolute -inset-2 animate-spin-slow rounded-full bg-[conic-gradient(from_0deg,transparent,oklch(0.72_0.19_250),transparent_30%,oklch(0.66_0.22_295),transparent_60%)] opacity-70 [animation:spin_8s_linear_infinite]" />
-          <div className="relative animate-float">
-            <div className="h-64 w-64 overflow-hidden rounded-full border-2 border-white/10 bg-surface p-1 sm:h-72 sm:w-72 md:h-80 md:w-80">
+          {/* Portrait absolutely overlapping text */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.5 }}
+            className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-[55%]"
+          >
+            <div className="relative h-[40vw] max-h-[460px] min-h-[260px] w-[30vw] min-w-[220px] max-w-[360px] overflow-hidden rounded-t-full bg-surface">
               <img
                 src={profilePic}
                 alt="Charan.D"
-                width={1024}
-                height={1024}
-                className="h-full w-full rounded-full object-cover"
+                className="h-full w-full object-cover grayscale contrast-110"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
             </div>
-            <div className="absolute -bottom-2 -right-2 grid h-14 w-14 place-items-center rounded-2xl glass">
-              <Code2 className="h-6 w-6 text-[color:var(--electric)]" />
-            </div>
-            <div className="absolute -top-2 -left-2 grid h-14 w-14 place-items-center rounded-2xl glass">
-              <Sparkles className="h-6 w-6 text-[color:var(--violet)]" />
-            </div>
-          </div>
-        </motion.div>
-      </div>
+          </motion.div>
+        </div>
 
-      <a
-        href="#about"
-        aria-label="Scroll"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground"
-      >
-        <ChevronDown className="h-6 w-6 animate-bounce" />
-      </a>
+        {/* Scroll-down badge */}
+        <div className="mt-8 flex justify-center text-[color:var(--electric)]">
+          <CircleBadge text="SCROLL DOWN • SCROLL DOWN • ">
+            <ChevronDown className="h-6 w-6" />
+          </CircleBadge>
+        </div>
+      </div>
     </section>
   );
 }
+
 
 /* ============================ Reusable ============================ */
 
@@ -356,58 +332,71 @@ function SectionHeader({ kicker, title, sub }: { kicker: string; title: string; 
 /* ============================ ABOUT ============================ */
 
 function About() {
-  const facts = [
-    { icon: GraduationCap, label: "University", value: "Sapthagiri NPS" },
-    { icon: BookOpen, label: "Year", value: "1st Year, 2nd Sem" },
-    { icon: Target, label: "Focus", value: "Python · C · Web" },
-    { icon: Rocket, label: "Status", value: "Learning & Building" },
+  const stats = [
+    { n: "1st", l: "Year of Engineering" },
+    { n: "3+", l: "Languages Learning" },
+    { n: "∞", l: "Curiosity to Build" },
   ];
 
   return (
-    <section id="about" className="relative px-4 py-28">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeader kicker="about" title="About Me" />
+    <section id="about" className="relative overflow-hidden px-4 py-24">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[8%] top-1/2 hidden h-72 w-72 -translate-y-1/2 opacity-[0.04] md:block"
+        style={{
+          backgroundImage:
+            "linear-gradient(45deg, #fff 25%, transparent 25%), linear-gradient(-45deg, #fff 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #fff 75%), linear-gradient(-45deg, transparent 75%, #fff 75%)",
+          backgroundSize: "24px 24px",
+          backgroundPosition: "0 0, 0 12px, 12px -12px, -12px 0",
+        }}
+      />
 
-        <div className="grid items-start gap-10 md:grid-cols-2">
-          <Reveal>
-            <div className="space-y-5 text-base leading-relaxed text-muted-foreground">
-              <p>
-                I'm an <span className="text-foreground">engineering student at Sapthagiri NPS University</span>,
-                currently in my 1st Year, 2nd Semester (Admission 2025–26).
-              </p>
-              <p>
-                I'm fascinated by technology, software development, and the craft of writing
-                clean, meaningful code. Every day I'm sharpening my fundamentals and exploring
-                how ideas become real products.
-              </p>
-              <p className="rounded-2xl border-l-2 border-[color:var(--electric)] bg-white/[0.03] p-4 italic text-foreground/90">
-                "Focused on strengthening programming fundamentals and building practical projects
-                while developing skills for future opportunities."
-              </p>
-            </div>
-          </Reveal>
+      <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
+        <Reveal>
+          <div>
+            <span className="font-mono text-xs uppercase tracking-[0.4em] text-muted-foreground/60">HELLO</span>
+            <h2 className="mt-2 text-6xl font-black uppercase tracking-tight sm:text-7xl">
+              I'M <span className="text-[color:var(--electric)]">CHARAN</span>
+            </h2>
 
-          <Reveal delay={0.15}>
-            <div className="grid grid-cols-2 gap-4">
-              {facts.map((f) => (
-                <div
-                  key={f.label}
-                  className="group rounded-2xl glass p-5 transition-all hover:-translate-y-1 hover:border-[color:var(--electric)]/40"
-                >
-                  <div className="mb-3 grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[color:var(--electric)]/20 to-[color:var(--violet)]/20 text-[color:var(--electric)]">
-                    <f.icon className="h-5 w-5" />
-                  </div>
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground">{f.label}</div>
-                  <div className="mt-1 text-sm font-semibold">{f.value}</div>
+            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
+              Engineering student at <span className="text-foreground">Sapthagiri NPS University</span> (1st Year,
+              2nd Sem · 2025–26). Passionate about software, programming, and modern web technologies — turning
+              fundamentals into intuitive, well-crafted digital experiences.
+            </p>
+
+            <div className="mt-10 space-y-5">
+              {stats.map((s) => (
+                <div key={s.l} className="flex items-baseline gap-6 border-b border-white/5 pb-4">
+                  <span className="w-24 text-3xl font-bold text-foreground">{s.n}</span>
+                  <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{s.l}</span>
                 </div>
               ))}
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.15}>
+          <div className="relative mx-auto w-full max-w-md">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-surface">
+              <img
+                src={profilePic}
+                alt="Charan working"
+                className="h-full w-full object-cover grayscale contrast-110"
+              />
+            </div>
+            <div className="absolute -bottom-8 -left-8 text-[color:var(--electric)]">
+              <CircleBadge text="EXPLORE MORE • EXPLORE MORE • ">
+                <ArrowRight className="h-6 w-6 -rotate-45" />
+              </CircleBadge>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
 }
+
 
 /* ============================ EDUCATION ============================ */
 

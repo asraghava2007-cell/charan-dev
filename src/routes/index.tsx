@@ -332,58 +332,71 @@ function SectionHeader({ kicker, title, sub }: { kicker: string; title: string; 
 /* ============================ ABOUT ============================ */
 
 function About() {
-  const facts = [
-    { icon: GraduationCap, label: "University", value: "Sapthagiri NPS" },
-    { icon: BookOpen, label: "Year", value: "1st Year, 2nd Sem" },
-    { icon: Target, label: "Focus", value: "Python · C · Web" },
-    { icon: Rocket, label: "Status", value: "Learning & Building" },
+  const stats = [
+    { n: "1st", l: "Year of Engineering" },
+    { n: "3+", l: "Languages Learning" },
+    { n: "∞", l: "Curiosity to Build" },
   ];
 
   return (
-    <section id="about" className="relative px-4 py-28">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeader kicker="about" title="About Me" />
+    <section id="about" className="relative overflow-hidden px-4 py-24">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[8%] top-1/2 hidden h-72 w-72 -translate-y-1/2 opacity-[0.04] md:block"
+        style={{
+          backgroundImage:
+            "linear-gradient(45deg, #fff 25%, transparent 25%), linear-gradient(-45deg, #fff 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #fff 75%), linear-gradient(-45deg, transparent 75%, #fff 75%)",
+          backgroundSize: "24px 24px",
+          backgroundPosition: "0 0, 0 12px, 12px -12px, -12px 0",
+        }}
+      />
 
-        <div className="grid items-start gap-10 md:grid-cols-2">
-          <Reveal>
-            <div className="space-y-5 text-base leading-relaxed text-muted-foreground">
-              <p>
-                I'm an <span className="text-foreground">engineering student at Sapthagiri NPS University</span>,
-                currently in my 1st Year, 2nd Semester (Admission 2025–26).
-              </p>
-              <p>
-                I'm fascinated by technology, software development, and the craft of writing
-                clean, meaningful code. Every day I'm sharpening my fundamentals and exploring
-                how ideas become real products.
-              </p>
-              <p className="rounded-2xl border-l-2 border-[color:var(--electric)] bg-white/[0.03] p-4 italic text-foreground/90">
-                "Focused on strengthening programming fundamentals and building practical projects
-                while developing skills for future opportunities."
-              </p>
-            </div>
-          </Reveal>
+      <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
+        <Reveal>
+          <div>
+            <span className="font-mono text-xs uppercase tracking-[0.4em] text-muted-foreground/60">HELLO</span>
+            <h2 className="mt-2 text-6xl font-black uppercase tracking-tight sm:text-7xl">
+              I'M <span className="text-[color:var(--electric)]">CHARAN</span>
+            </h2>
 
-          <Reveal delay={0.15}>
-            <div className="grid grid-cols-2 gap-4">
-              {facts.map((f) => (
-                <div
-                  key={f.label}
-                  className="group rounded-2xl glass p-5 transition-all hover:-translate-y-1 hover:border-[color:var(--electric)]/40"
-                >
-                  <div className="mb-3 grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[color:var(--electric)]/20 to-[color:var(--violet)]/20 text-[color:var(--electric)]">
-                    <f.icon className="h-5 w-5" />
-                  </div>
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground">{f.label}</div>
-                  <div className="mt-1 text-sm font-semibold">{f.value}</div>
+            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
+              Engineering student at <span className="text-foreground">Sapthagiri NPS University</span> (1st Year,
+              2nd Sem · 2025–26). Passionate about software, programming, and modern web technologies — turning
+              fundamentals into intuitive, well-crafted digital experiences.
+            </p>
+
+            <div className="mt-10 space-y-5">
+              {stats.map((s) => (
+                <div key={s.l} className="flex items-baseline gap-6 border-b border-white/5 pb-4">
+                  <span className="w-24 text-3xl font-bold text-foreground">{s.n}</span>
+                  <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">{s.l}</span>
                 </div>
               ))}
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.15}>
+          <div className="relative mx-auto w-full max-w-md">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-surface">
+              <img
+                src={profilePic}
+                alt="Charan working"
+                className="h-full w-full object-cover grayscale contrast-110"
+              />
+            </div>
+            <div className="absolute -bottom-8 -left-8 text-[color:var(--electric)]">
+              <CircleBadge text="EXPLORE MORE • EXPLORE MORE • ">
+                <ArrowRight className="h-6 w-6 -rotate-45" />
+              </CircleBadge>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
 }
+
 
 /* ============================ EDUCATION ============================ */
 

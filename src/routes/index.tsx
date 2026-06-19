@@ -890,20 +890,28 @@ function CopyableContact({
 
 function Contact() {
   const [sending, setSending] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!formRef.current) return;
     setSending(true);
-    const data = new FormData(e.currentTarget);
-    const name = String(data.get("name") || "");
-    const message = String(data.get("message") || "");
-    const subject = encodeURIComponent(`Portfolio contact from ${name}`);
-    const body = encodeURIComponent(message);
-    setTimeout(() => {
-      window.location.href = `mailto:Charandhevaiah@gmail.com?subject=${subject}&body=${body}`;
+    try {
+      const emailjs = (await import("@emailjs/browser")).default;
+      await emailjs.sendForm(
+        "service_00tqsrm",
+        "template_vgg8tee",
+        formRef.current,
+        { publicKey: "MmCX9hE42b74PjTMo" },
+      );
+      toast.success("Message sent! I'll get back to you soon.");
+      formRef.current.reset();
+    } catch (err) {
+      console.error(err);
+      toast.error("Couldn't send. Please try again or email me directly.");
+    } finally {
       setSending(false);
-      toast.success("Opening your email client…");
-    }, 400);
+    }
   };
 
   return (
@@ -944,7 +952,7 @@ function Contact() {
           </Reveal>
 
           <Reveal delay={0.15}>
-            <form onSubmit={onSubmit} className="space-y-4 rounded-3xl glass p-6">
+            <form ref={formRef} onSubmit={onSubmit} className="space-y-4 rounded-3xl glass p-6">
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="Name" name="name" placeholder="Your name" required />
                 <Field label="Email" name="email" type="email" placeholder="you@email.com" required />
